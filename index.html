@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Directory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+    --primary-color: #4361ee;
+    --secondary-color: #3f37c9;
+    --accent-color: #4895ef;
+    --light-color: #f8f9fa;
+    --dark-color: #212529;
+    --success-color: #4cc9f0;
+    --warning-color: #f72585;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f5f7fa;
+    color: var(--dark-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    animation: fadeIn 0.5s ease;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo i {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.logo h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.search-container {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+}
+
+.search-box {
+    display: flex;
+    width: 100%;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.search-box input {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    font-size: 1rem;
+    outline: none;
+    transition: var(--transition);
+}
+
+.search-box input:focus {
+    box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+.search-box button {
+    padding: 0 20px;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.search-box button:hover {
+    background-color: var(--secondary-color);
+}
+
+.suggestions {
+    position: absolute;
+    width: 100%;
+    background: white;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    box-shadow: var(--box-shadow);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+    display: none;
+}
+
+.suggestions.show {
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+.suggestion-item {
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.suggestion-item:hover {
+    background-color: #f0f0f0;
+}
+
+.contacts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s ease 0.2s both;
+}
+
+.contacts-header h2 {
+    font-size: 1.5rem;
+    color: var(--dark-color);
+}
+
+.contact-count {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+.table-container {
+    background: white;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+    animation: fadeIn 0.5s ease 0.4s both;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 500;
+}
+
+tr {
+    transition: var(--transition);
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+.contact-phone, .contact-whatsapp {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.contact-phone i {
+    color: var(--primary-color);
+}
+
+.contact-whatsapp i {
+    color: #25D366;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: var(--transition);
+    padding: 5px;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.call-btn {
+    color: var(--primary-color);
+}
+
+.call-btn:hover {
+    background-color: rgba(67, 97, 238, 0.1);
+}
+
+.whatsapp-btn {
+    color: #25D366;
+}
+
+.whatsapp-btn:hover {
+    background-color: rgba(37, 211, 102, 0.1);
+}
+
+.no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 20px;
+    text-align: center;
+    display: none;
+}
+
+.no-results i {
+    font-size: 3rem;
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+.no-results p {
+    color: #666;
+    font-size: 1.1rem;
+}
+
+.no-results.show {
+    display: flex;
+    animation: fadeIn 0.5s ease;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    th, td {
+        padding: 10px 8px;
+        font-size: 0.9rem;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .contact-phone, .contact-whatsapp {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 10px;
+    }
+    
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .logo h1 {
+        font-size: 1.5rem;
+    }
+    
+    .search-box input {
+        padding: 10px 12px;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-phone-alt"></i>
+                <h1>Phone Directory</h1>
+            </div>
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search contacts...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <div id="suggestions" class="suggestions"></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="contacts-header">
+                <h2>Contacts</h2>
+                <div class="contact-count" id="contactCount">0 contacts</div>
+            </div>
+            
+            <div class="table-container">
+                <table id="contactsTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Phone</th>
+                            <th>WhatsApp</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contactsBody">
+                        <!-- Contacts will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="no-results" id="noResults">
+                <i class="fas fa-user-slash"></i>
+                <p>No contacts found</p>
+            </div>
+        </main>
+    </div>
+    <script>
+       // Sample phone directory data
+const phoneDirectory = [
+    {
+        name: "Prakash upadhyay",
+        description: "son of Ramvilas borha & shanti devi",
+        phone: "+91 9309450225",
+        whatsapp: "9309459225",
+        email: "john.doe@example.com"
+    },
+    {
+        name: "Prakash upadhyay",
+        description: "son of Ramvilas borha & shanti devi",
+        phone: "+91 9309450225",
+        whatsapp: "9309459225",
+        email: "john.doe@example.com"
+    },
+    {
+        name: "Prakash upadhyay",
+        description: "son of Ramvilas borha & shanti devi",
+        phone: "+91 9309450225",
+        whatsapp: "9309459225",
+        email: "john.doe@example.com"
+    },
+    {
+        name: "Prakash upadhyay",
+        description: "son of Ramvilas borha & shanti devi",
+        phone: "+91 9309450225",
+        whatsapp: "9309459225",
+        email: "john.doe@example.com"
+    },
+    {
+        name: "Prakash upadhyay",
+        description: "son of Ramvilas borha & shanti devi",
+        phone: "+91 9309450225",
+        whatsapp: "9309459225",
+        email: "john.doe@example.com"
+    },
+];
+
+// To add more contacts, simply push new objects to the phoneDirectory array
+// Example:
+// phoneDirectory.push({
+//     name: "New Contact",
+//     description: "New Role",
+//     phone: "+10000000000",
+//     whatsapp: "+10000000000",
+//     email: "new@example.com"
+// });
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // DOM Elements
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const suggestionsBox = document.getElementById('suggestions');
+    const contactsBody = document.getElementById('contactsBody');
+    const noResults = document.getElementById('noResults');
+    const contactCount = document.getElementById('contactCount');
+    
+    // Initialize contacts
+    let contacts = [];
+    let filteredContacts = [];
+    
+    // Load contacts
+    function loadContacts() {
+        contacts = [...phoneDirectory]; // From contacts.js
+        filteredContacts = [...contacts];
+        renderContacts();
+        updateContactCount();
+    }
+    
+    // Render contacts to the table
+    function renderContacts() {
+        contactsBody.innerHTML = '';
+        
+        if (filteredContacts.length === 0) {
+            noResults.classList.add('show');
+            return;
+        }
+        
+        noResults.classList.remove('show');
+        
+        filteredContacts.forEach(contact => {
+            const row = document.createElement('tr');
+            row.classList.add('contact-row');
+            row.innerHTML = `
+                <td>${contact.name}</td>
+                <td>${contact.description}</td>
+                <td class="contact-phone">
+                    <i class="fas fa-phone"></i>
+                    <span>${contact.phone}</span>
+                </td>
+                <td class="contact-whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>${contact.whatsapp || contact.phone}</span>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="action-btn call-btn" title="Call" onclick="window.location.href='tel:${contact.phone}'">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                        <button class="action-btn whatsapp-btn" title="WhatsApp" onclick="window.open('https://wa.me/${contact.whatsapp || contact.phone}')">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                    </div>
+                </td>
+            `;
+            contactsBody.appendChild(row);
+        });
+    }
+    
+    // Update contact count
+    function updateContactCount() {
+        const count = filteredContacts.length;
+        contactCount.textContent = `${count} contact${count !== 1 ? 's' : ''}`;
+    }
+    
+    // Fuzzy search function
+    function fuzzySearch(query, contacts) {
+        if (!query) return contacts;
+        
+        const lowerQuery = query.toLowerCase();
+        
+        // Exact match first
+        const exactMatches = contacts.filter(contact => 
+            contact.name.toLowerCase().includes(lowerQuery) ||
+            contact.description.toLowerCase().includes(lowerQuery) ||
+            contact.phone.includes(query)
+        );
+        
+        if (exactMatches.length > 0) return exactMatches;
+        
+        // Then try fuzzy matching
+        return contacts.filter(contact => {
+            const name = contact.name.toLowerCase();
+            const description = contact.description.toLowerCase();
+            
+            // Simple fuzzy match - check if all query letters appear in order
+            let nameIndex = 0;
+            let descIndex = 0;
+            
+            for (let i = 0; i < lowerQuery.length; i++) {
+                nameIndex = name.indexOf(lowerQuery[i], nameIndex) + 1;
+                descIndex = description.indexOf(lowerQuery[i], descIndex) + 1;
+                
+                if (nameIndex === 0 && descIndex === 0) {
+                    return false;
+                }
+            }
+            
+            return true;
+        });
+    }
+    
+    // Show suggestions
+    function showSuggestions(query) {
+        if (!query) {
+            suggestionsBox.classList.remove('show');
+            return;
+        }
+        
+        const suggestions = fuzzySearch(query, contacts).slice(0, 5);
+        suggestionsBox.innerHTML = '';
+        
+        if (suggestions.length === 0) {
+            suggestionsBox.classList.remove('show');
+            return;
+        }
+        
+        suggestions.forEach(contact => {
+            const suggestionItem = document.createElement('div');
+            suggestionItem.classList.add('suggestion-item');
+            suggestionItem.textContent = contact.name;
+            suggestionItem.addEventListener('click', () => {
+                searchInput.value = contact.name;
+                filteredContacts = [contact];
+                renderContacts();
+                updateContactCount();
+                suggestionsBox.classList.remove('show');
+            });
+            suggestionsBox.appendChild(suggestionItem);
+        });
+        
+        suggestionsBox.classList.add('show');
+    }
+    
+    // Event listeners
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        showSuggestions(query);
+        
+        if (query === '') {
+            filteredContacts = [...contacts];
+            renderContacts();
+            updateContactCount();
+            return;
+        }
+        
+        filteredContacts = fuzzySearch(query, contacts);
+        renderContacts();
+        updateContactCount();
+    });
+    
+    searchBtn.addEventListener('click', function() {
+        const query = searchInput.value.trim();
+        filteredContacts = fuzzySearch(query, contacts);
+        renderContacts();
+        updateContactCount();
+        suggestionsBox.classList.remove('show');
+    });
+    
+    // Close suggestions when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+            suggestionsBox.classList.remove('show');
+        }
+    });
+    
+    // Initialize
+    loadContacts();
+});
+    </script>
+</body>
+</html>

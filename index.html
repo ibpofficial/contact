@@ -327,9 +327,207 @@ tr:hover {
         padding: 10px 12px;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.secondary-nav {
+    background: linear-gradient(135deg, var(--primary-color), #090d42);
+    padding: 0.8rem 1rem;
+    margin: 0 auto 2rem;
+    max-width: 1000px;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(9, 1, 26, 0.877);
+    position: relative;
+    overflow: hidden;
+}
+
+.secondary-nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(3, 15, 39, 0.658) 0%, 
+        rgba(91, 10, 116, 0.527) 50%, 
+        rgba(24, 11, 44, 0.267) 100%);
+    z-index: 1;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+}
+
+.nav-link {
+    position: relative;
+    padding: 0.8rem 1.2rem;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 30px;
+}
+
+.nav-link i {
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+    transition: transform 0.3s ease;
+}
+
+.nav-link span {
+    font-size: 0.9rem;
+}
+
+.nav-link:hover {
+    background: rgba(204, 241, 238, 0.479);
+    transform: translateY(-3px);
+}
+
+.nav-link:hover i {
+    transform: scale(1.2);
+}
+
+.nav-link.active {
+    background: var(--secondary-color);
+    box-shadow: 0 5px 15px rgba(255, 154, 118, 0.4);
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .secondary-nav {
+        border-radius: 20px;
+        padding: 0.5rem;
+    }
+    
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .nav-link {
+        padding: 0.6rem 0.8rem;
+        margin: 0.2rem;
+        font-size: 0.9rem;
+        flex: 1 0 40%;
+        max-width: 45%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+    
+    .nav-link i {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-link {
+        flex: 1 0 100%;
+        max-width: 100%;
+        margin: 0.2rem 0;
+        border-radius: 10px;
+    }
+}
+
+/* Animation for active state */
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(25, 1, 82, 0.795);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(255, 154, 118, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 154, 118, 0);
+    }
+}
+
+.nav-link:active {
+    animation: pulse-glow 0.5s;
+    transform: scale(0.95);
+}
+
+/* Loading animation for pages */
+@keyframes pageLoad {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.page-content {
+    animation: pageLoad 0.6s ease-out;
+}
     </style>
 </head>
 <body>
+    <nav class="secondary-nav">
+        <ul class="nav-links">
+            <li>
+                <a href="https://ibpofficial.github.io/Family/videos.html" class="nav-link" id="videosLink">
+                    <i class="fas fa-video"></i>
+                    <span>VIDEOS</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ibpofficial.github.io/Family/about.html" class="nav-link" id="aboutLink">
+                    <i class="fas fa-info-circle"></i>
+                    <span>ABOUT</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ibpofficial.github.io/Family" class="nav-link" id="aboutLink">
+                    <i class="fas fa-home"></i>
+                    <span>HOME</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="https://ibpofficial.github.io/Family/notes.html" class="nav-link" id="notesLink">
+                    <i class="fas fa-sticky-note"></i>
+                    <span>NOTES</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
     <div class="container">
         <header class="header">
             <div class="logo">

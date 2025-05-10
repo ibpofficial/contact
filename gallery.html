@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Moments | Modern Photo Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #5e35b1;
+            --secondary: #3949ab;
+            --accent: #7c4dff;
+            --light: #f5f5f7;
+            --dark: #121212;
+            --text: #333333;
+            --text-light: #757575;
+            --success: #43a047;
+            --warning: #ffa000;
+            --error: #e53935;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Accessibility Skip Link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 8px;
+            z-index: 100;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 90;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 0.5rem 2rem;
+            backdrop-filter: blur(10px);
+            background: rgba(94, 53, 177, 0.9);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        main {
+            padding-top: 80px;
+            min-height: calc(100vh - 120px);
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 2rem 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(94, 53, 177, 0.7), rgba(57, 73, 171, 0.7));
+            z-index: -1;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            animation: fadeInUp 1s ease 0.4s forwards;
+            opacity: 0;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: rgba(255,255,255,0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            margin: 4rem 0;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent);
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .filter-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .filter-btn.active:hover {
+            background-color: var(--secondary);
+        }
+
+        /* Gallery Grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            aspect-ratio: 4/3;
+            background-color: #f9f9f9;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 1rem;
+            color: white;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            opacity: 0;
+        }
+
+        .gallery-item:hover .overlay {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .gallery-item .date {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-item .title {
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-item .private-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Private Access Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: var(--error);
+        }
+
+        .modal h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(94, 53, 177, 0.2);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Image Viewer Modal */
+        .image-viewer {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .image-viewer.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .viewer-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 2rem;
+        }
+
+        .viewer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .close-viewer {
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-viewer:hover {
+            color: var(--accent);
+        }
+
+        .viewer-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .viewer-image {
+            max-width: 90%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .viewer-footer {
+            margin-top: 1rem;
+            color: white;
+            text-align: center;
+        }
+
+        .viewer-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1rem;
+        }
+
+        .nav-btn {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .nav-btn:hover {
+            background-color: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+
+        .nav-btn i {
+            font-size: 1.5rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .footer-column h3 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--accent);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            background-color: rgba(255,255,255,0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(94, 53, 177, 0.2);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Accessibility Features */
+        .accessibility-toolbar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 80;
+            display: flex;
+            gap: 10px;
+        }
+
+        .accessibility-btn {
+            background-color: var(--primary);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .accessibility-btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        /* High Contrast Mode */
+        .high-contrast {
+            --light: #000000ea;
+            --dark: #fff;
+            --text: #fff;
+            --text-light: #ccc;
+            background-color: #000 !important;
+            color: #fff !important;
+        }
+
+        .high-contrast .gallery-item,
+        .high-contrast .btn,
+        .high-contrast .form-control,
+        .high-contrast .modal-content {
+            border: 2px solid #fff !important;
+        }
+
+        /* Text Size Adjustments */
+        .text-large {
+            font-size: 1.1em;
+        }
+
+        .text-xlarge {
+            font-size: 1.25em;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem;
+            }
+            
+            .header-container {
+                padding: 0;
+            }
+            
+            nav {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: var(--primary);
+                padding: 1rem;
+                transform: translateY(-150%);
+                transition: transform 0.3s ease;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            }
+            
+            nav.active {
+                transform: translateY(0);
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                height: 50vh;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .filter-controls {
+                flex-wrap: wrap;
+            }
+            
+            .viewer-nav {
+                padding: 0;
+            }
+            
+            .nav-btn {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            main {
+                padding: 90px 1rem 1rem;
+            }
+            
+            .hero {
+                height: 40vh;
+                padding: 2rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-btns {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+                margin: 0 1rem;
+            }
+        }
+        .private-image-container {
+            display: none; /* Hidden by default */
+            margin-top: 2rem;
+        }
+        
+        .private-image-wrapper {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .private-image-wrapper img {
+            width: 100%;
+            display: block;
+        }
+        
+        .private-image-info {
+            background-color: white;
+            padding: 1.5rem;
+        }
+        
+        .private-image-info h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .private-image-info .date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .private-image-info .description {
+            color: var(--text);
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to Content Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to Content</a>
+    
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-camera-retro"></i>
+                <span>Family Moments</span>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle navigation menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#private">Private Photos</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <h1>Cherished Family Moments</h1>
+            <p>Relive your favorite memories with our beautifully organized family photo gallery. Every picture tells a story.</p>
+            <div class="hero-btns">
+                <a href="#gallery" class="btn btn-primary">
+                    <i class="fas fa-images"></i> Browse Gallery
+                </a>
+                <a href="#private" class="btn btn-secondary">
+                    <i class="fas fa-lock"></i> Private Photos
+                </a>
+            </div>
+        </section>
+        
+        <!-- Public Gallery Section -->
+        <section class="gallery-section" id="gallery">
+            <div class="section-header">
+                <h2>Family Gallery</h2>
+                <div class="filter-controls">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="recent">Recent</button>
+                    <button class="filter-btn" data-filter="vacation">Vacations</button>
+                    <button class="filter-btn" data-filter="celebration">Celebrations</button>
+                </div>
+            </div>
+            
+            <div class="gallery-grid">
+                <!-- Sample Gallery Items -->
+                <div class="gallery-item" data-category="recent" data-date="2023-06-15">
+                    <img src="papa.jpeg" alt="Family gathering at home">
+                    <div class="overlay">
+                        <div class="date">June 15, 2023</div>
+                        <div class="title">Sunday Brunch</div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="vacation" data-date="2023-05-22">
+                    <img src="dada.jpeg"Family at the beach">
+                    <div class="overlay">
+                        <div class="date">May 22, 2023</div>
+                        <div class="title">Beach Vacation</div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="celebration" data-date="2023-04-10">
+                    <img src="dadi.jpeg" alt="Birthday celebration">
+                    <div class="overlay">
+                        <div class="date">April 10, 2023</div>
+                        <div class="title">Emma's Birthday</div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="recent" data-date="2023-06-01">
+                    <img src="ishu.png" alt="Family in the garden">
+                    <div class="overlay">
+                        <div class="date">June 1, 2023</div>
+                        <div class="title">Garden Day</div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="vacation" data-date="2022-12-15">
+                    <img src="teena.jpeg" alt="Winter vacation">
+                    <div class="overlay">
+                        <div class="date">December 15, 2022</div>
+                        <div class="title">Winter Getaway</div>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="celebration" data-date="2022-11-24">
+                    <img src="dadi.jpeg" alt="Thanksgiving dinner">
+                    <div class="overlay">
+                        <div class="date">November 24, 2022</div>
+                        <div class="title">Thanksgiving Dinner</div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="vacation" data-date="2022-12-15">
+                    <img src="deepak1.jpeg" alt="Winter vacation">
+                    <div class="overlay">
+                        <div class="date">December 15, 2022</div>
+                        <div class="title">Winter Getaway</div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="vacation" data-date="2022-12-15">
+                    <img src="raja.jpeg" alt="Winter vacation">
+                    <div class="overlay">
+                        <div class="date">December 15, 2022</div>
+                        <div class="title">Winter Getaway</div>
+                    </div>
+                </div>
+                <div class="gallery-item" data-category="vacation" data-date="2022-12-15">
+                    <img src="fufa.jpeg" alt="Winter vacation">
+                    <div class="overlay">
+                        <div class="date">December 15, 2022</div>
+                        <div class="title">Winter Getaway</div>
+                    </div>
+                </div>
+                 <div class="gallery-item" data-category="vacation" data-date="2022-12-15">
+                    <img src="raja.jpeg" alt="Winter vacation">
+                    <div class="overlay">
+                        <div class="date">December 15, 2022</div>
+                        <div class="title">Winter Getaway</div>
+                    </div>
+                </div>
+                 <div class="gallery-item" data-category="vacation" data-date="2022-12-15">
+                    <img src="rajkumar.jpeg" alt="Winter vacation">
+                    <div class="overlay">
+                        <div class="date">December 15, 2022</div>
+                        <div class="title">Winter Getaway</div>
+                    </div>
+                </div>
+                 <div class="gallery-item" data-category="vacation" data-date="2022-12-15">
+                    <img src="mahesh.png" alt="Winter vacation">
+                    <div class="overlay">
+                        <div class="date">December 15, 2022</div>
+                        <div class="title">Winter Getaway</div>
+                    </div>
+                </div>
+                 <div class="gallery-item" data-category="vacation" data-date="2022-12-15">
+                    <img src="mahesh2.jpeg" alt="Winter vacation">
+                    <div class="overlay">
+                        <div class="date">December 15, 2022</div>
+                        <div class="title">Winter Getaway</div>
+                    </div>
+                </div>
+                 <div class="gallery-item" data-category="vacation" data-date="2022-12-15">
+                    <img src="vedprakash.jpeg" alt="Winter vacation">
+                    <div class="overlay">
+                        <div class="date">December 15, 2022</div>
+                        <div class="title">Winter Getaway</div>
+                    </div>
+                </div>
+                 <div class="gallery-item" data-category="vacation" data-date="2022-12-15">
+                    <img src="harsh.jpeg" alt="Winter vacation">
+                    <div class="overlay">
+                        <div class="date">December 15, 2022</div>
+                        <div class="title">Winter Getaway</div>
+                    </div>
+                </div>
+                 <div class="gallery-item" data-category="vacation" data-date="2022-12-15">
+                    <img src="harshi.jpeg" alt="Winter vacation">
+                    <div class="overlay">
+                        <div class="date">December 15, 2022</div>
+                        <div class="title">Winter Getaway</div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+        
+        <!-- Private Gallery Section -->
+         <section class="gallery-section" id="private">
+        <div class="section-header">
+            <h2>Private Photos</h2>
+        </div>
+        
+        <div class="private-access-info">
+            <p>To view private family photos, please enter the image title and password provided by the family administrator.</p>
+            
+            <div class="form-group" style="margin-top: 1.5rem;">
+                <label for="private-image-title">Image Title</label>
+                <input type="text" id="private-image-title" class="form-control" placeholder="Enter image title (e.g. dop)">
+            </div>
+            <div class="form-group">
+                <label for="private-image-password">Password</label>
+                <input type="password" id="private-image-password" class="form-control" placeholder="Enter password">
+            </div>
+            <button id="view-private-btn" class="btn btn-primary">
+                <i class="fas fa-eye"></i> View Image
+            </button>
+            <div id="private-access-message" style="margin-top: 1rem; color: var(--error); display: none;"></div>
+        </div>
+        
+        <!-- This will be shown when correct credentials are entered -->
+        <div class="private-image-container" id="private-image-container">
+            <div class="private-image-wrapper">
+                <img id="private-image" src="" alt="Private family image">
+                <div class="private-image-info">
+                    <h3 id="private-image-name"></h3>
+                    <div class="date" id="private-image-date"></div>
+                    <div class="description" id="private-image-description"></div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 1.5rem;">
+                <button id="lock-private-btn" class="btn btn-secondary">
+                    <i class="fas fa-lock"></i> Lock Image
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Image Viewer Modal -->
+    <div class="image-viewer" id="image-viewer">
+        <div class="viewer-container">
+            <div class="viewer-header">
+                <div class="image-title">Image Title</div>
+                <span class="close-viewer">&times;</span>
+            </div>
+            <div class="viewer-content">
+                <div class="viewer-nav">
+                    <button class="nav-btn prev-btn" aria-label="Previous image">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-btn next-btn" aria-label="Next image">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <img src="" alt="" class="viewer-image">
+            </div>
+            <div class="viewer-footer">
+                <div class="image-date">June 15, 2023</div>
+                <div class="image-description">Family gathering at home for Sunday brunch</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+   
+    
+    <!-- Accessibility Toolbar -->
+   
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const nav = document.querySelector('nav');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            nav.classList.toggle('active');
+            mobileMenuBtn.innerHTML = nav.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Header Scroll Effect
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Gallery Filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                const filter = btn.dataset.filter;
+                
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+        
+        // Image Viewer Functionality
+        const galleryItemsAll = document.querySelectorAll('.gallery-item');
+        const imageViewer = document.getElementById('image-viewer');
+        const viewerImage = document.querySelector('.viewer-image');
+        const viewerTitle = document.querySelector('.image-title');
+        const viewerDate = document.querySelector('.image-date');
+        const viewerDescription = document.querySelector('.image-description');
+        const closeViewer = document.querySelector('.close-viewer');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        
+        let currentImageIndex = 0;
+        const images = [];
+        
+        // Populate images array with gallery items data
+        galleryItemsAll.forEach((item, index) => {
+            const img = item.querySelector('img');
+            const title = item.querySelector('.title') ? item.querySelector('.title').textContent : 'Untitled';
+            const date = item.querySelector('.date') ? item.querySelector('.date').textContent : 'No date';
+            const description = img.alt;
+            
+            images.push({
+                src: img.src,
+                title: title,
+                date: date,
+                description: description,
+                element: item
+            });
+            
+            // Add click event to each gallery item
+            item.addEventListener('click', () => {
+                openImageViewer(index);
+            });
+        });
+        
+        function openImageViewer(index) {
+            currentImageIndex = index;
+            updateViewer();
+            imageViewer.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function updateViewer() {
+            const currentImage = images[currentImageIndex];
+            viewerImage.src = currentImage.src;
+            viewerTitle.textContent = currentImage.title;
+            viewerDate.textContent = currentImage.date;
+            viewerDescription.textContent = currentImage.description;
+            
+            // Add animation
+            viewerImage.style.animation = 'none';
+            void viewerImage.offsetWidth; // Trigger reflow
+            viewerImage.style.animation = 'fadeIn 0.5s ease';
+        }
+        
+        function closeImageViewer() {
+            imageViewer.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            updateViewer();
+        }
+        
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            updateViewer();
+        }
+        
+        closeViewer.addEventListener('click', closeImageViewer);
+        nextBtn.addEventListener('click', showNextImage);
+        prevBtn.addEventListener('click', showPrevImage);
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (imageViewer.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    closeImageViewer();
+                } else if (e.key === 'ArrowRight') {
+                    showNextImage();
+                } else if (e.key === 'ArrowLeft') {
+                    showPrevImage();
+                }
+            }
+        });
+        
+        // Click outside image to close viewer
+        imageViewer.addEventListener('click', (e) => {
+            if (e.target === imageViewer) {
+                closeImageViewer();
+            }
+        });
+        
+         // Private Image Access System
+        const privateImages = {
+            'dop': {
+                password: '123',
+                src: 'dop.png',
+                title: 'dopss',
+                date: 'June 15, 2023',
+                description: 'This was our family gathering at the summer house last year.'
+            },
+            'reunion': {
+                password: 'family2023',
+                src: 'https://source.unsplash.com/random/800x600/?family,reunion',
+                title: 'Family Reunion',
+                date: 'May 22, 2023',
+                description: 'Annual family reunion at grandparents house.'
+            },
+            'wedding': {
+                password: 'forever',
+                src: 'https://source.unsplash.com/random/800x600/?wedding',
+                title: 'Sarah\'s Wedding',
+                date: 'April 10, 2023',
+                description: 'Beautiful wedding ceremony at the beach.'
+            }
+        };
+        
+        const viewPrivateBtn = document.getElementById('view-private-btn');
+        const privateAccessMessage = document.getElementById('private-access-message');
+        const privateImageContainer = document.getElementById('private-image-container');
+        const privateImage = document.getElementById('private-image');
+        const privateImageName = document.getElementById('private-image-name');
+        const privateImageDate = document.getElementById('private-image-date');
+        const privateImageDescription = document.getElementById('private-image-description');
+        const lockPrivateBtn = document.getElementById('lock-private-btn');
+        
+        viewPrivateBtn.addEventListener('click', () => {
+            const imageTitle = document.getElementById('private-image-title').value.trim().toLowerCase();
+            const password = document.getElementById('private-image-password').value;
+            
+            if (!imageTitle || !password) {
+                showPrivateMessage('Please enter both image title and password');
+                return;
+            }
+            
+            if (privateImages[imageTitle] && privateImages[imageTitle].password === password) {
+                // Correct credentials - show the image
+                privateImage.src = privateImages[imageTitle].src;
+                privateImage.alt = privateImages[imageTitle].title;
+                privateImageName.textContent = privateImages[imageTitle].title;
+                privateImageDate.textContent = privateImages[imageTitle].date;
+                privateImageDescription.textContent = privateImages[imageTitle].description;
+                
+                // Show the container
+                privateImageContainer.style.display = 'block';
+                privateAccessMessage.style.display = 'none';
+                
+                // Scroll to the image
+                privateImageContainer.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                showPrivateMessage('Invalid image title or password');
+            }
+        });
+        
+        lockPrivateBtn.addEventListener('click', () => {
+            privateImageContainer.style.display = 'none';
+            document.getElementById('private-image-title').value = '';
+            document.getElementById('private-image-password').value = '';
+        });
+        
+        function showPrivateMessage(message) {
+            privateAccessMessage.textContent = message;
+            privateAccessMessage.style.display = 'block';
+            
+            // Hide message after 3 seconds
+            setTimeout(() => {
+                privateAccessMessage.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Rest of the JavaScript remains the same
+        
+        // Accessibility Features
+        const contrastBtn = document.getElementById('contrast-btn');
+        const textSizeBtn = document.getElementById('text-size-btn');
+        let textSizeLevel = 0;
+        
+        contrastBtn.addEventListener('click', () => {
+            document.body.classList.toggle('high-contrast');
+        });
+        
+        textSizeBtn.addEventListener('click', () => {
+            textSizeLevel = (textSizeLevel + 1) % 3;
+            document.body.classList.remove('text-large', 'text-xlarge');
+            
+            if (textSizeLevel === 1) {
+                document.body.classList.add('text-large');
+            } else if (textSizeLevel === 2) {
+                document.body.classList.add('text-xlarge');
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    if (nav.classList.contains('active')) {
+                        nav.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    }
+                }
+            });
+        });
+        
+        // Lazy loading for images (would be implemented in a real app)
+        // Intersection Observer API can be used for this
+        
+        // Animation on scroll
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.gallery-item, .section-header');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.2;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        // Set initial state for animation
+        document.querySelectorAll('.gallery-item, .section-header').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+        
+    </script>
+</body>
+</html>
